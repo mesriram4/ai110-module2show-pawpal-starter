@@ -5,7 +5,91 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+
+    1) Let's user enter user + pet info: 
+        + User info: 
+            = Ask user to input user name. Save it in a variable 
+            = Ask user to input available times. Save it as a list 
+        + Pet info: 
+            = Ask to input pet name. Save it in a variable 
+            = Ask user to input physical info about pet. Save it as a dictionary? 
+            = Ask user to input food and exercise preferences for pet. 
+    
+    2) Let user add or edit tasks 
+        + User inputs a tuple/dict with info regarding task name, duration, and priority 
+        + Ability to edit this list before and after outputting. 
+    
+    3) App generates to-do list of task 
+        + 1 or 2 functions can be used to sort tasks within a list based on duration and time, outputting a final list of tasks that user can follow in order with the ability to edit this to-do list as well. 
+
 - What classes did you include, and what responsibilities did you assign to each?
+
+    1) class User 
+        = self.name 
+        = self.morning_time 
+        = self.afternoon_time 
+        = self.evening_time
+
+        + Method: def basic_info 
+        + Method: def availability
+        + Method: def owner_pet_overlap
+    
+    2) class Pets
+        = self.pet_name 
+        = self.pet_species 
+        = self.pet_height 
+        = self.pet_weight 
+        = self.pet_age 
+        = self.pet_eating_time 
+        = self.pet_walking_time
+
+        + Method: def pet_info 
+        + Method: def pet_time preferences 
+    
+    3) class Tasks 
+        = self.task_name 
+        = self.task_duration 
+        = self.task_priority
+    
+        + Method: def task_grouping 
+        + Method: def_organize_to_do_list
+
+```mermaid
+classDiagram
+    class User {
+        +name
+        +morning_time
+        +afternoon_time
+        +evening_time
+        +basic_info()
+        +availability()
+        +owner_pet_overlap()
+    }
+
+    class Pets {
+        +pet_name
+        +pet_species
+        +pet_height
+        +pet_weight
+        +pet_age
+        +pet_eating_time
+        +pet_walking_time
+        +pet_info()
+        +pet_time_preferences()
+    }
+
+    class Tasks {
+        +task_name
+        +task_duration
+        +task_priority
+        +task_grouping()
+        +organize_to_do_list()
+    }
+
+    User "1" --> "0..*" Pets : owns
+    User "1" --> "0..*" Tasks : manages
+    Pets "1" --> "0..*" Tasks : requires
+```
 
 **b. Design changes**
 
