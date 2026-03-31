@@ -9,11 +9,12 @@
     1) Let's user enter user + pet info: 
         + User info: 
             = Ask user to input user name. Save it in a variable 
-            = Ask user to input available times. Save it as a list 
+            = Ask user to input number of pets. 
         + Pet info: 
             = Ask to input pet name. Save it in a variable 
-            = Ask user to input physical info about pet. Save it as a dictionary? 
-            = Ask user to input food and exercise preferences for pet. 
+            = Ask user about species 
+            = Store eating time 
+            = Store walking time
     
     2) Let user add or edit tasks 
         + User inputs a tuple/dict with info regarding task name, duration, and priority 
@@ -21,6 +22,8 @@
     
     3) App generates to-do list of task 
         + 1 or 2 functions can be used to sort tasks within a list based on duration and time, outputting a final list of tasks that user can follow in order with the ability to edit this to-do list as well. 
+
+    Overall, the goal of this app is to maintain both user and pet info using two separate classes, User and Pets, while also allowing users to input information regarding their tasks. The app will then organize tasks based on duration and time (using the class Task). The class User takes in the name of the user and the number of pets they own. Using the class Pets, users can input information regarding their pet's name, the species of the pet, their usual eating time, and usual walking time. The class Task will take in tasks and output a schedule for the User. 
 
 - What classes did you include, and what responsibilities did you assign to each?
 
