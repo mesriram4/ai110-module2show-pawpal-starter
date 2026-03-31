@@ -18,7 +18,6 @@ class User:
     def owner_pet_overlap(self):
         pass
 
-
 class Pets:
     def __init__(self, pet_name, pet_species, pet_eating_time, pet_walking_time):
         self.pet_name = pet_name
