@@ -76,10 +76,11 @@ class Owner:
 
 class Scheduler:  #THE BRAIN
 
-    def __init__(self, owner): 
-        self.owner = owner 
+    def __init__(self, owner):
+        self.owner = owner
         self.pets = owner.pets
         self.tasks = owner.tasks
+        self.pending_daily = []  # holds Daily tasks marked complete, waiting to reset for next day
 
     
     def create_schedule(self):
@@ -117,21 +118,60 @@ class Scheduler:  #THE BRAIN
                 else:
                     time_slot = "Evening"
 
-                pet_entries.append((task.task_name, time_slot))
+                pet_entries.append((task.task_name, time_slot, task.task_frequency))
 
             schedule[pet.pet_name] = pet_entries
 
         return schedule
     
-    def mark_complete(self, pet_name, task_name): #Automatically generated code from copilot
-        """Finds the named task for the given pet and sets its mark_complete attribute to True."""
+    def mark_complete(self, pet_name, task_name):
+        """Marks the named task as complete for the given pet.
+
+        If the task frequency is Daily, it is queued in pending_daily so it
+        automatically resets to incomplete when next_day() is called.
+
+        Args:
+            pet_name (str): Name of the pet the task belongs to.
+            task_name (str): Name of the task to mark complete.
+
+        Returns:
+            str: Confirmation message, noting if the task will recur tomorrow.
+        """
         for pet in self.pets:
             if pet.pet_name == pet_name:
                 for task in pet.tasks:
                     if task.task_name == task_name:
                         task.mark_complete = True
-                        return f"{task_name} for {pet_name} has been completed"
+
+                        # Queue Daily tasks to reset overnight for the next day
+                        if task.task_frequency.lower() == "daily":
+                            self.pending_daily.append(task)
+                            return f"{task_name} for {pet_name} has been completed and will repeat tomorrow."
+
+                        return f"{task_name} for {pet_name} has been completed."
+
         return "Task or pet not found."
+
+    def next_day(self):
+        """Resets all completed Daily tasks back to incomplete for the next day.
+
+        Should be called once at the start of each new day. Non-daily tasks
+        (Weekly, Monthly, etc.) are not affected and must be managed manually.
+
+        Returns:
+            str: Summary of which tasks were rescheduled.
+        """
+        if not self.pending_daily:
+            return "New day started. No daily tasks to reschedule."
+
+        # Reset each queued Daily task back to incomplete so it reappears in the schedule
+        rescheduled = []
+        for task in self.pending_daily:
+            task.mark_complete = False
+            rescheduled.append(task.task_name)
+
+        self.pending_daily.clear()
+        return f"New day started. Rescheduled for today: {', '.join(rescheduled)}"
 
 
     def organize_schedule(self, schedule, filter_pet=None, completed=None): #Asked Claude Agent to simplify code for human readability, returned this formatted method. 
@@ -176,6 +216,8 @@ class Scheduler:  #THE BRAIN
                 ]
 
             # Sort remaining entries Morning -> Afternoon -> Evening
+            # Each entry is a 3-tuple: (task_name, time_slot, frequency)
+            # Frequency is carried through so the caller can label recurring tasks
             filtered_schedule[pet_name] = sorted(entries, key=lambda t: TIME_ORDER.get(t[1], 3))
 
         return filtered_schedule
