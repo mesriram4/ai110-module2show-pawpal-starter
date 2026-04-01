@@ -40,8 +40,8 @@ At minimum, your system should:
 st.divider()
 
 st.subheader("Quick Demo Inputs (UI only)")
-owner_name = st.text_input("Owner name", value= Owner.basic_info)
-pet_name = st.text_input("Pet name", value= Pets.pet_info)
+owner_name = st.text_input("Owner name", value="Matt")
+pet_name = st.text_input("Pet name", value="Bosco")
 species = st.selectbox("Species", ["Dog", "Cat", "Other"])
 
 st.markdown("### Tasks")
@@ -75,15 +75,6 @@ st.subheader("Build Schedule")
 st.caption("This button should call your scheduling logic once you implement it.")
 
 if st.button("Generate schedule"):
-    st.warning(
-        "Not implemented yet. Next step: create your scheduling logic (classes/functions) and call it here."
-    )
-    st.markdown(
-        """
-Suggested approach:
-1. Design your UML (draft).
-2. Create class stubs (no logic).
-3. Implement scheduling behavior.
-4. Connect your scheduler here and display results.
-"""
-    )
+    st.session_state.owner = Owner(owner_name)
+    st.session_state.pet = Pets(pet_name, species) 
+    st.session_state.owner.add_pet(st.session_state.pet)
