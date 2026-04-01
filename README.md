@@ -41,3 +41,10 @@ pip install -r requirements.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+
+### Smarter Scheduling 
+
++ Some updates have been made to increase the scheduling efficiency of this app: For starters, the program now creates a list of tasks assigned based on pet, completion status, priority, and time slot (if provided), otherwise automatically assigned. 
++ In main.py, the program includes several examples of an owner, pets, and tasks being assigned based on tasks assigned to pet, priority, and time slot if assigned. Main.py allows for users to add additional tasks other than the examples included in main.py, and the program returns a list of tasks based on the filters and sorting criteria previously described. 
++ All additional features were linked with features within app.py. Data inputted is saved through st.session(); both pawpal_system and app.py are linked. 
